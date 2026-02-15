@@ -1,0 +1,62 @@
+name: Build Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  fake-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          echo "Setting up environment..."
+          sleep 10
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies..."
+          sleep 20
+
+      - name: Generate random build time (10–20 min)
+        id: timer
+        run: |
+          MIN=600
+          MAX=1200
+          RANDOM_TIME=$((MIN + RANDOM % (MAX - MIN + 1)))
+          echo "RANDOM_TIME=$RANDOM_TIME" >> $GITHUB_ENV
+          echo "Build will run for $RANDOM_TIME seconds"
+
+      - name: Compile project
+        run: |
+          echo "Compiling sources..."
+          sleep 60
+
+      - name: Run fake tests
+        run: |
+          echo "Running tests..."
+          sleep 45
+
+      - name: Fake heavy build process
+        run: |
+          echo "Running long build..."
+          sleep $RANDOM_TIME
+
+      - name: Package artifacts
+        run: |
+          echo "Packaging artifacts..."
+          sleep 30
+
+      - name: Upload artifacts (simulated)
+        run: |
+          echo "Uploading..."
+          sleep 15
+
+      - name: Finish
+        run: |
+          echo "Build completed successfully!"
